@@ -877,10 +877,6 @@ void c_menu::draw_ragebot(int child)
 				if (g_cfg.ragebot.weapon[hooks::rage_weapon].max_misses)
 					ImGui::SliderInt(crypt_str("Max misses"), &g_cfg.ragebot.weapon[hooks::rage_weapon].max_misses_amount, 0, 6);
 
-				/*ImGui::Checkbox(crypt_str("Accuracy boost"), &g_cfg.ragebot.weapon[hooks::rage_weapon].accuracy_boost);
-
-				if (vars.ragebot.weapon[hooks::rage_weapon].accuracy_boost)
-					ImGui::SliderInt(crypt_str("Accuracy boost amount"), &g_cfg.ragebot.weapon[hooks::rage_weapon].accuracy_boost_amount, 1, 100);*/
 
 				ImGui::Checkbox(crypt_str("Prefer safe points"), &g_cfg.ragebot.weapon[hooks::rage_weapon].prefer_safe_points);
 				ImGui::Checkbox(crypt_str("Prefer body aim"), &g_cfg.ragebot.weapon[hooks::rage_weapon].prefer_body_aim);
