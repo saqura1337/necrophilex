@@ -141,6 +141,7 @@ float antiaim::get_yaw(CUserCmd* m_pcmd)
 	else
 	{
 
+        auto base_angle = m_pcmd->m_viewangles.y + 180.0f;
 
 		if (manual_side == SIDE_NONE)
 		{
@@ -148,11 +149,15 @@ float antiaim::get_yaw(CUserCmd* m_pcmd)
 			{
 				freestanding(m_pcmd);
 			}
+			if (!g_cfg.antiaim.freestand)
+			{
+				base_angle += 180.0f;
+			}
 		}
 		else
 			final_manual_side = manual_side;
 
-		auto base_angle = m_pcmd->m_viewangles.y + 180.0f;
+		
 
 		if (final_manual_side == SIDE_LEFT)
 			base_angle -= 90.0f;
