@@ -216,10 +216,11 @@ __forceinline void setup_render()
 	fonts[SUBTABWEAPONS] = create_font(crypt_str("undefeated"), 13, FW_DONTCARE, FONTFLAG_ANTIALIAS);
 	fonts[KNIFES] = create_font(crypt_str("icomoon"), 13, FW_DONTCARE, FONTFLAG_ANTIALIAS);
 	fonts[GRENADES] = create_font(crypt_str("undefeated"), 20, FW_MEDIUM, FONTFLAG_OUTLINE);
-	fonts[INDICATORFONT] = create_font(crypt_str("Verdana"), 15, FW_HEAVY, FONTFLAG_ANTIALIAS | FONTFLAG_DROPSHADOW);
+	fonts[INDICATORFONT] = create_font(crypt_str("Verdana"), 25, FW_HEAVY, FONTFLAG_ANTIALIAS | FONTFLAG_DROPSHADOW);
 	fonts[DAMAGE_MARKER] = create_font(crypt_str("Raleway"), 17, FW_MEDIUM, FONTFLAG_ANTIALIAS);
 	fonts[WATERMARK] = create_font(crypt_str("Verdana"), 13, FW_MEDIUM, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 	fonts[IND] = create_font(crypt_str("Raleway"), 15, FW_MEDIUM, FONTFLAG_ANTIALIAS);
+	fonts[HUD] = create_font(crypt_str("Verdana"), 25, FW_MEDIUM, FONTFLAG_ANTIALIAS);
 	fonts[WARNING_icon] = create_font(crypt_str("undefeated"), 20, FW_MEDIUM, FONTFLAG_ANTIALIAS | FONTFLAG_DROPSHADOW);
 	fonts[WARNING_text] = create_font(crypt_str("Verdana"), 12, FW_SEMIBOLD, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 	g_ctx.last_font_name.clear();

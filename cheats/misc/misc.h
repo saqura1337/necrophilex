@@ -8,6 +8,7 @@ public:
 	void spectators_list();
 
 	void NoDuck(CUserCmd* cmd);
+	void freddy(player_t* player);
 	void AutoCrouch(CUserCmd* cmd);
 	void lsd();
 	void rainbow();

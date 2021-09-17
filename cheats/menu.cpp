@@ -8,7 +8,6 @@
 #include "..\cheats\misc\misc.h"
 #include "../bass/bass.h"
 #include "../BASS/API.h"
-#include "../BASS/bass.h"
 
 #define ALPHA (ImGuiColorEditFlags_AlphaPreview | ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_AlphaBar| ImGuiColorEditFlags_InputRGB | ImGuiColorEditFlags_Float)
 #define NOALPHA (ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_NoAlpha | ImGuiColorEditFlags_InputRGB | ImGuiColorEditFlags_Float)
@@ -1110,7 +1109,7 @@ void c_menu::draw_visuals(int child)
 				ImGui::BeginChild(crypt_str("##VISUAL1_FIRST"), ImVec2(358 * dpi_scale, (child_height - 35) * dpi_scale));
 				{
 					ImGui::Checkbox(crypt_str("Enable"), &g_cfg.player.enable);
-		//			ImGui::Checkbox(crypt_str("Custom hud"), &g_cfg.esp.custom_hud);
+					ImGui::Checkbox(crypt_str("Custom hud"), &g_cfg.esp.custom_hud);
 					draw_multicombo(crypt_str("Indicators"), g_cfg.esp.indicators, indicators, ARRAYSIZE(indicators), preview);
 					padding(0, 3);
 					draw_multicombo(crypt_str("Removals"), g_cfg.esp.removals, removals, ARRAYSIZE(removals), preview);

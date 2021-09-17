@@ -39,19 +39,15 @@ public:
 	void p2c();
 	void penetration_reticle();
 	void indicators();
-	void circlefake();
 	void draw_indicators();
+	void custom_hud();
 	void dynamic_scopes_lines();
 	void custom_scopes_lines();
-//	void custom_hud();
-	void DrawFOV();
 	void hitmarker_paint();
 	void damage_marker_paint();
 	void draw_fov();
 	void spread_crosshair(LPDIRECT3DDEVICE9 device);
 	void automatic_peek_indicator();
-	void get_keys();
-	void keybinds();
 
 	struct Hitmarker
 	{

@@ -253,6 +253,7 @@ void __fastcall hooks::hooked_painttraverse(void* ecx, void* edx, vgui::VPANEL p
 
 			otheresp::get().draw_fov();
 			otheresp::get().dynamic_scopes_lines();
+			otheresp::get().custom_hud();
 			otheresp::get().custom_scopes_lines();
 			otheresp::get().penetration_reticle();
 			otheresp::get().automatic_peek_indicator();

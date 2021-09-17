@@ -373,46 +373,46 @@ void otheresp::indicators()
 
 	g_ctx.globals.indicator_pos = height / 2;
 	if (g_cfg.esp.indicators[INDICATOR_HS] && g_cfg.antiaim.hide_shots && g_cfg.antiaim.hide_shots_key.key > KEY_NONE && g_cfg.antiaim.hide_shots_key.key < KEY_MAX && misc::get().hide_shots_key) {
-		render::get().gradient(10, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATOR_HS], "HS") / 2, render::get().text_heigth(fonts[INDICATOR_HS], "HS") + 8, Color(0, 0, 0, 0), Color(0, 0, 0, 200), GRADIENT_HORIZONTAL);
-		render::get().gradient(10 + render::get().text_width(fonts[INDICATOR_HS], "HS") / 2, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATOR_HS], "HS") / 2, render::get().text_heigth(fonts[INDICATOR_HS], "HS") + 8, Color(0, 0, 0, 200), Color(0, 0, 0, 0), GRADIENT_HORIZONTAL);
-		render::get().text(fonts[INDICATOR_HS], 11, g_ctx.globals.indicator_pos + 1, Color::Black, 0, "HS");
-		render::get().text(fonts[INDICATOR_HS], 10, g_ctx.globals.indicator_pos, Color(240, 240, 240, 255), 0, "HS");
+		render::get().gradient(10, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATORFONT], "HS") / 2, render::get().text_heigth(fonts[INDICATORFONT], "HS") + 8, Color(0, 0, 0, 0), Color(0, 0, 0, 200), GRADIENT_HORIZONTAL);
+		render::get().gradient(10 + render::get().text_width(fonts[INDICATORFONT], "HS") / 2, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATORFONT], "HS") / 2, render::get().text_heigth(fonts[INDICATORFONT], "HS") + 8, Color(0, 0, 0, 200), Color(0, 0, 0, 0), GRADIENT_HORIZONTAL);
+		render::get().text(fonts[INDICATORFONT], 11, g_ctx.globals.indicator_pos + 1, Color::Black, 0, "HS");
+		render::get().text(fonts[INDICATORFONT], 10, g_ctx.globals.indicator_pos, Color(240, 240, 240, 255), 0, "HS");
 		g_ctx.globals.indicator_pos += 45;
 	}
 	if (g_cfg.esp.indicators[INDICATOR_DT] && g_cfg.ragebot.double_tap && g_cfg.ragebot.double_tap_key.key > KEY_NONE && g_cfg.ragebot.double_tap_key.key < KEY_MAX && misc::get().double_tap_key) {
-		render::get().gradient(10, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATOR_DT], "DT") / 2, render::get().text_heigth(fonts[INDICATOR_DT], "DT") + 8, Color(0, 0, 0, 0), Color(0, 0, 0, 200), GRADIENT_HORIZONTAL);
-		render::get().gradient(10 + render::get().text_width(fonts[INDICATOR_DT], "DT") / 2, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATOR_DT], "DT") / 2, render::get().text_heigth(fonts[INDICATOR_DT], "DT") + 8, Color(0, 0, 0, 200), Color(0, 0, 0, 0), GRADIENT_HORIZONTAL);
-		render::get().text(fonts[INDICATOR_DT], 11, g_ctx.globals.indicator_pos + 1, Color::Black, 0, "DT");
-		render::get().text(fonts[INDICATOR_DT], 10, g_ctx.globals.indicator_pos, !g_ctx.local()->m_bGunGameImmunity() && !(g_ctx.local()->m_fFlags() & FL_FROZEN) && !antiaim::get().freeze_check && misc::get().double_tap_enabled && !weapon->is_grenade() && weapon->m_iItemDefinitionIndex() != WEAPON_TASER && weapon->m_iItemDefinitionIndex() != WEAPON_REVOLVER && weapon->can_fire(false) ? Color(240, 240, 240, 255) : Color(130, 20, 0, 255), 0, "DT");
+		render::get().gradient(10, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATORFONT], "DT") / 2, render::get().text_heigth(fonts[INDICATORFONT], "DT") + 8, Color(0, 0, 0, 0), Color(0, 0, 0, 200), GRADIENT_HORIZONTAL);
+		render::get().gradient(10 + render::get().text_width(fonts[INDICATORFONT], "DT") / 2, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATORFONT], "DT") / 2, render::get().text_heigth(fonts[INDICATORFONT], "DT") + 8, Color(0, 0, 0, 200), Color(0, 0, 0, 0), GRADIENT_HORIZONTAL);
+		render::get().text(fonts[INDICATORFONT], 11, g_ctx.globals.indicator_pos + 1, Color::Black, 0, "DT");
+		render::get().text(fonts[INDICATORFONT], 10, g_ctx.globals.indicator_pos, !g_ctx.local()->m_bGunGameImmunity() && !(g_ctx.local()->m_fFlags() & FL_FROZEN) && !antiaim::get().freeze_check && misc::get().double_tap_enabled && !weapon->is_grenade() && weapon->m_iItemDefinitionIndex() != WEAPON_TASER && weapon->m_iItemDefinitionIndex() != WEAPON_REVOLVER && weapon->can_fire(false) ? Color(240, 240, 240, 255) : Color(130, 20, 0, 255), 0, "DT");
 		g_ctx.globals.indicator_pos += 45;
 	}
 	if (g_cfg.esp.indicators[INDICATOR_DAMAGE] && g_ctx.globals.current_weapon != -1 && key_binds::get().get_key_bind_state(4 + g_ctx.globals.current_weapon) && !weapon->is_non_aim()) {
-		render::get().gradient(10, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATOR_DAMAGE], "DMG: 00") / 2, render::get().text_heigth(fonts[INDICATOR_DAMAGE], "DMG: 00") + 8, Color(0, 0, 0, 0), Color(0, 0, 0, 200), GRADIENT_HORIZONTAL);
-		render::get().gradient(10 + render::get().text_width(fonts[INDICATOR_DAMAGE], "DMG: 00") / 2, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATOR_DAMAGE], "DMG: 00") / 2, render::get().text_heigth(fonts[INDICATOR_DAMAGE], "DT") + 8, Color(0, 0, 0, 200), Color(0, 0, 0, 0), GRADIENT_HORIZONTAL);
-		render::get().text(fonts[INDICATOR_DAMAGE], 11, g_ctx.globals.indicator_pos + 1, Color::Black, 0, "DMG: %d", g_cfg.ragebot.weapon[g_ctx.globals.current_weapon].minimum_override_damage);
-		render::get().text(fonts[INDICATOR_DAMAGE], 10, g_ctx.globals.indicator_pos, Color(130, 240, 0, 255), 0, "DMG: %d", g_cfg.ragebot.weapon[g_ctx.globals.current_weapon].minimum_override_damage);
+		render::get().gradient(10, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATORFONT], "DMG: 00") / 2, render::get().text_heigth(fonts[INDICATORFONT], "DMG: 00") + 8, Color(0, 0, 0, 0), Color(0, 0, 0, 200), GRADIENT_HORIZONTAL);
+		render::get().gradient(10 + render::get().text_width(fonts[INDICATORFONT], "DMG: 00") / 2, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATORFONT], "DMG: 00") / 2, render::get().text_heigth(fonts[INDICATORFONT], "DT") + 8, Color(0, 0, 0, 200), Color(0, 0, 0, 0), GRADIENT_HORIZONTAL);
+		render::get().text(fonts[INDICATORFONT], 11, g_ctx.globals.indicator_pos + 1, Color::Black, 0, "DMG: %d", g_cfg.ragebot.weapon[g_ctx.globals.current_weapon].minimum_override_damage);
+		render::get().text(fonts[INDICATORFONT], 10, g_ctx.globals.indicator_pos, Color(130, 240, 0, 255), 0, "DMG: %d", g_cfg.ragebot.weapon[g_ctx.globals.current_weapon].minimum_override_damage);
 		g_ctx.globals.indicator_pos += 45;
 	}
 
 
 	if (g_cfg.esp.indicators[INDICATOR_FAKE]) {
 		auto colorfake = Color(130, 20 + (int)(((g_ctx.local()->get_max_desync_delta() - 29.f) / 29.f) * 200.0f), 0);
-		render::get().gradient(10, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATOR_FAKE], "FAKE ") / 2, render::get().text_heigth(fonts[INDICATOR_FAKE], "FAKE ") + 8, Color(0, 0, 0, 0), Color(0, 0, 0, 200), GRADIENT_HORIZONTAL);
-		render::get().gradient(10 + render::get().text_width(fonts[INDICATOR_FAKE], "FAKE ") / 2, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATOR_FAKE], "FAKE ") / 2, render::get().text_heigth(fonts[INDICATOR_FAKE], "DT") + 8, Color(0, 0, 0, 200), Color(0, 0, 0, 0), GRADIENT_HORIZONTAL);
-		render::get().text(fonts[INDICATOR_FAKE], 11, g_ctx.globals.indicator_pos + 1, Color::Black, 0, "FAKE");
-		render::get().text(fonts[INDICATOR_FAKE], 10, g_ctx.globals.indicator_pos, colorfake, 0, "FAKE");
-		render::get().draw_arc(10 + render::get().text_width(fonts[INDICATOR_FAKE], "FAKE") + 12, g_ctx.globals.indicator_pos + 13, 7, NULL, 360, 4, Color(0, 0, 0, 200));
-		render::get().draw_arc(10 + render::get().text_width(fonts[INDICATOR_FAKE], "FAKE") + 12, g_ctx.globals.indicator_pos + 13, 7, NULL, ((g_ctx.local()->get_max_desync_delta() - 29.f) / 29.f) * 360.f, 4, colorfake);
+		render::get().gradient(10, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATORFONT], "FAKE ") / 2, render::get().text_heigth(fonts[INDICATORFONT], "FAKE ") + 8, Color(0, 0, 0, 0), Color(0, 0, 0, 200), GRADIENT_HORIZONTAL);
+		render::get().gradient(10 + render::get().text_width(fonts[INDICATORFONT], "FAKE ") / 2, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATORFONT], "FAKE ") / 2, render::get().text_heigth(fonts[INDICATORFONT], "DT") + 8, Color(0, 0, 0, 200), Color(0, 0, 0, 0), GRADIENT_HORIZONTAL);
+		render::get().text(fonts[INDICATORFONT], 11, g_ctx.globals.indicator_pos + 1, Color::Black, 0, "FAKE");
+		render::get().text(fonts[INDICATORFONT], 10, g_ctx.globals.indicator_pos, colorfake, 0, "FAKE");
+		render::get().draw_arc(10 + render::get().text_width(fonts[INDICATORFONT], "FAKE") + 12, g_ctx.globals.indicator_pos + 13, 7, NULL, 360, 4, Color(0, 0, 0, 200));
+		render::get().draw_arc(10 + render::get().text_width(fonts[INDICATORFONT], "FAKE") + 12, g_ctx.globals.indicator_pos + 13, 7, NULL, ((g_ctx.local()->get_max_desync_delta() - 29.f) / 29.f) * 360.f, 4, colorfake);
 		g_ctx.globals.indicator_pos += 45;
 	}
 	if (g_cfg.esp.indicators[INDICATOR_CHOKE]) {
 		auto colorfl = Color(130, 20 + (int)((m_clientstate()->iChokedCommands / 15.f) * 200.0f), 0);
-		render::get().gradient(10, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATORFONT], "FL ") / 2, render::get().text_heigth(fonts[INDICATOR_CHOKE], "FL ") + 8, Color(0, 0, 0, 0), Color(0, 0, 0, 200), GRADIENT_HORIZONTAL);
-		render::get().gradient(10 + render::get().text_width(fonts[INDICATOR_CHOKE], "FL ") / 2, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATOR_CHOKE], "FL ") / 2, render::get().text_heigth(fonts[INDICATORFONT], "DT") + 8, Color(0, 0, 0, 200), Color(0, 0, 0, 0), GRADIENT_HORIZONTAL);
-		render::get().text(fonts[INDICATOR_CHOKE], 11, g_ctx.globals.indicator_pos + 1, Color::Black, 0, "FL");
-		render::get().text(fonts[INDICATOR_CHOKE], 10, g_ctx.globals.indicator_pos, colorfl, 0, "FL");
-		render::get().draw_arc(10 + render::get().text_width(fonts[INDICATOR_CHOKE], "FL") + 12, g_ctx.globals.indicator_pos + 13, 7, NULL, 360, 4, Color(0, 0, 0, 200));
-		render::get().draw_arc(10 + render::get().text_width(fonts[INDICATOR_CHOKE], "FL") + 12, g_ctx.globals.indicator_pos + 13, 7, NULL, (m_clientstate()->iChokedCommands / 15.f) * 360.f, 4, colorfl);
+		render::get().gradient(10, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATORFONT], "FL ") / 2, render::get().text_heigth(fonts[INDICATORFONT], "FL ") + 8, Color(0, 0, 0, 0), Color(0, 0, 0, 200), GRADIENT_HORIZONTAL);
+		render::get().gradient(10 + render::get().text_width(fonts[INDICATORFONT], "FL ") / 2, g_ctx.globals.indicator_pos - 4, render::get().text_width(fonts[INDICATORFONT], "FL ") / 2, render::get().text_heigth(fonts[INDICATORFONT], "DT") + 8, Color(0, 0, 0, 200), Color(0, 0, 0, 0), GRADIENT_HORIZONTAL);
+		render::get().text(fonts[INDICATORFONT], 11, g_ctx.globals.indicator_pos + 1, Color::Black, 0, "FL");
+		render::get().text(fonts[INDICATORFONT], 10, g_ctx.globals.indicator_pos, colorfl, 0, "FL");
+		render::get().draw_arc(10 + render::get().text_width(fonts[INDICATORFONT], "FL") + 12, g_ctx.globals.indicator_pos + 13, 7, NULL, 360, 4, Color(0, 0, 0, 200));
+		render::get().draw_arc(10 + render::get().text_width(fonts[INDICATORFONT], "FL") + 12, g_ctx.globals.indicator_pos + 13, 7, NULL, (m_clientstate()->iChokedCommands / 15.f) * 360.f, 4, colorfl);
 		g_ctx.globals.indicator_pos += 45;
 	}
 
@@ -507,6 +507,53 @@ void otheresp::draw_indicators()
 
 	m_indicators.clear();
 }
+
+#define HIDEHUD_HEALTH 1 << 3
+
+void otheresp::custom_hud()
+{
+	if (!g_cfg.esp.custom_hud)
+		return;
+
+	g_ctx.local()->m_iHideHUD() |= HIDEHUD_HEALTH;
+
+	if (!g_ctx.local()->is_alive())
+		return;
+
+	auto hp = g_ctx.local()->m_iHealth();
+	auto armor = g_ctx.local()->m_ArmorValue();
+
+	int red = 255 - (hp * 2.55);
+	int green = hp * 2.55;
+
+	Color hp_color = Color(red, green, 0);
+	Color armor_color = Color(7, 169, 232);
+
+	int screen_w, screen_h;
+	m_engine()->GetScreenSize(screen_w, screen_h);
+	int x = 25, y = screen_h - 40;
+
+	////////////////////////////////	////////////////////////////////	////////////////////////////////	////////////////////////////////
+
+	render::get().text(fonts[HUD], x, y, Color(hp_color), HFONT_CENTERED_Y, std::to_string(hp).c_str());
+	render::get().text(fonts[HUD], x + 55, y, Color(255, 255, 255), HFONT_CENTERED_Y, "HP");
+
+	////////////////////////////////	////////////////////////////////	////////////////////////////////	////////////////////////////////
+
+	render::get().rect(x - 1, y + 27, x - 1 + 92, y + 27 + 5, Color(0, 0, 0, 200));
+	render::get().rect_filled(x, y + 28, x + (int)(hp / 1.111111111), y + 28 + 3, hp_color);
+
+	////////////////////////////////	////////////////////////////////	////////////////////////////////	////////////////////////////////
+
+	render::get().text(fonts[HUD], x + 130, y, Color(armor_color), HFONT_CENTERED_Y, std::to_string(armor).c_str());
+	render::get().text(fonts[HUD], x + 185, y, Color(255, 255, 255), HFONT_CENTERED_Y, "ARMOR");
+
+	////////////////////////////////	////////////////////////////////	////////////////////////////////	////////////////////////////////
+
+	render::get().rect(x + 129, y + 27, x + 129 + 152, y + 27 + 5, Color(0, 0, 0, 200)); 
+	render::get().rect_filled(x + 130, y + 28, x + 130 + (int)(armor / 0.6666666666666), y + 28 + 3, armor_color); 
+}
+
 void otheresp::dynamic_scopes_lines()
 {
 	if (!g_ctx.local()->is_alive()) //-V807
@@ -630,7 +677,6 @@ void otheresp::hitmarker_paint()
 		}
 	}
 }
-
 
 void otheresp::damage_marker_paint()
 {

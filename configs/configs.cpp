@@ -239,16 +239,16 @@ void C_ConfigManager::setup()
 	setup_item(&g_cfg.esp.indicators, 8, crypt_str("Esp.rage_indicators"));
 	setup_item(&g_cfg.esp.removals, 8, crypt_str("Esp.world_removals"));
 	setup_item(&g_cfg.esp.draw_fov, false, crypt_str("Esp.draw_fov"));
+	setup_item(&g_cfg.esp.dynamic_scopes_line, false, crypt_str("Esp.dynamic_scopes_line"));
 	setup_item(&g_cfg.esp.draw_fov_clr, Color(255, 255, 255), crypt_str("Esp.draw_fov_clr"));
 	setup_item(&g_cfg.esp.custom_scopes_line, false, crypt_str("Esp.custom_scopes_line"));
 	setup_item(&g_cfg.esp.scopes_line_color, Color(255, 255, 255), crypt_str("Esp.scopes_line_color"));
 	setup_item(&g_cfg.esp.scopes_line_width, 0, crypt_str("Esp.scopes_line_width"));
 	setup_item(&g_cfg.esp.scopes_line_offset, 0, crypt_str("Esp.scopes_line_offset"));
-	setup_item(&g_cfg.esp.scopes_line_offset, 0, crypt_str("Esp.dynamic_scopes_line")); 
 	setup_item(&g_cfg.esp.keybinds, false, crypt_str("Esp.key_binds"));
 	setup_item(&g_cfg.esp.keybinds_pos_y, false, crypt_str("Esp.key_binds_pos_y"));
 	setup_item(&g_cfg.esp.keybinds_pos_x, false, crypt_str("Esp.key_binds_pos_x"));
-
+	setup_item(&g_cfg.esp.custom_hud, false, crypt_str("Esp.custom_hud"));
 	setup_item(&g_cfg.esp.grenade_warning, false, crypt_str("Esp.grenade_warning"));
 	setup_item(&g_cfg.esp.grenade_warning_color, Color(255, 255, 255), crypt_str("Esp.grenade_warning_color"));
 //	setup_item(&g_cfg.esp.custom_hud, false, crypt_str("Esp.custom_hud"));

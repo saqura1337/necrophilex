@@ -625,6 +625,7 @@ struct Config
 		std::vector <int> weapon;
 		Color box_color;
 		Color weapon_color;
+		bool custom_hud;
 		Color weapon_glow_color;
 		Color weapon_ammo_color;
 		std::vector <int> grenade_esp;
