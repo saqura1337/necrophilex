@@ -7,6 +7,8 @@ public:
 	void knifelefthand();
 	void spectators_list();
 
+	void lagcompexploit(CUserCmd* m_pcmd);
+
 	void NoDuck(CUserCmd* cmd);
 	void freddy(player_t* player);
 	void AutoCrouch(CUserCmd* cmd);

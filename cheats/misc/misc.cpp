@@ -1028,6 +1028,32 @@ void misc::spectators_list()
 	}
 }
 
+void misc::lagcompexploit(CUserCmd* m_pcmd)
+{
+	auto Speed2D = g_ctx.local()->m_vecVelocity().Length2D();
+	auto iChoked = m_clientstate()->iChokedCommands;
+	bool bOnGround = g_ctx.local()->m_fFlags() & FL_ONGROUND;
+
+	if (g_cfg.ragebot.dt_opt[DT_LAG] && !(m_pcmd->m_buttons & IN_ATTACK)) {
+
+		int iBreakTicks = 0;
+
+		if (Speed2D > 72)
+			iBreakTicks = bOnGround ? 2 : 4;
+		else
+			iBreakTicks = 1;
+
+		if (iBreakTicks > iChoked)
+			std::clamp(iBreakTicks, 1, 4);
+
+		if (iBreakTicks > 0) {
+			g_ctx.send_packet = true; // LNK1181
+			g_ctx.globals.tickbase_shift = iBreakTicks;
+
+		}
+	}
+}
+
 bool misc::double_tap(CUserCmd* m_pcmd)
 {
 	double_tap_enabled = true;
@@ -1133,6 +1159,34 @@ bool misc::double_tap(CUserCmd* m_pcmd)
 
 		memcpy(user_cmd, m_pcmd, sizeof(CUserCmd)); //-V598
 		user_cmd->m_command_number = next_command_number;
+		auto iChoked = m_clientstate()->iChokedCommands;
+
+		bool bOnGround = g_ctx.local()->m_fFlags() & FL_ONGROUND;
+		auto Speed2D = g_ctx.local()->m_vecVelocity().Length2D();
+
+
+		if (g_cfg.ragebot.dt_opt[DT_LAG]) {
+
+			int iBreakTicks = 0;
+			if (Speed2D > 72)
+				g_ctx.globals.shift_timer = bOnGround ? 2 : 4;
+
+			if (++g_ctx.globals.shift_timer > 14)
+				g_ctx.globals.shift_timer = 0;
+
+			if (g_ctx.globals.shift_timer > iChoked)
+				std::clamp(g_ctx.globals.shift_timer, 1, 4);
+
+			if (g_ctx.globals.shift_timer > 0) {
+				g_ctx.send_packet = true;
+			}
+
+			if (iBreakTicks > 0) {
+				g_ctx.send_packet = true; // LNK1181
+				g_ctx.globals.tickbase_shift = iBreakTicks;
+
+			}
+		}
 
 		util::copy_command(user_cmd, max_tickbase_shift);
 
@@ -1140,41 +1194,6 @@ bool misc::double_tap(CUserCmd* m_pcmd)
 		{
 			g_ctx.globals.double_tap_aim = true;
 			g_ctx.globals.double_tap_aim_check = true;
-		}
-
-		if (g_cfg.ragebot.dt_opt[DT_LAG] && !(m_pcmd->m_buttons & IN_ATTACK))
-		{
-			auto iChoked = m_clientstate()->iChokedCommands;
-
-			bool bOnGround = g_ctx.local()->m_fFlags() & FL_ONGROUND;
-			auto Speed2D = g_ctx.local()->m_vecVelocity().Length2D();
-
-			int iBreakTicks = 0;
-
-			if (Speed2D > 72)
-				g_ctx.globals.shift_timer = iBreakTicks > bOnGround ? 2 : 4;
-			else
-				iBreakTicks = 1;
-
-			if (++g_ctx.globals.shift_timer > 15) {
-				g_ctx.globals.shift_timer = 0;
-			}
-
-
-			if (g_ctx.globals.shift_timer > iBreakTicks > iChoked) {
-				std::clamp(g_ctx.globals.shift_timer, 1, 4);
-			}
-
-			if (g_ctx.globals.shift_timer > 0) {
-				g_ctx.send_packet = true;
-			}
-
-			if (iBreakTicks > 0) {
-				g_ctx.send_packet = true;
-				g_ctx.globals.tickbase_shift = iBreakTicks;
-
-			}
-			return 0;
 		}
 
 		recharge_double_tap = true;
