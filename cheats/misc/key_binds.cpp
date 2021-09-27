@@ -148,6 +148,7 @@ void key_binds::update_key_binds()
 	update_key_bind(&g_cfg.misc.thirdperson_toggle, 17);
 	update_key_bind(&g_cfg.misc.automatic_peek, 18);
 	update_key_bind(&g_cfg.misc.edge_jump, 19);
+	update_key_bind(&g_cfg.misc.hs, 23);
 	update_key_bind(&g_cfg.misc.fakeduck_key, 20);
 	update_key_bind(&g_cfg.misc.slowwalk_key, 21);
 	update_key_bind(&g_cfg.ragebot.body_aim_key, 22);

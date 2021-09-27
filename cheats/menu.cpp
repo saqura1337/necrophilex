@@ -830,15 +830,13 @@ void c_menu::draw_ragebot(int child)
 
 					draw_multicombo(crypt_str("Double tap options"), g_cfg.ragebot.dt_opt, dt_opt, ARRAYSIZE(dt_opt), preview);
 
+					ImGui::Checkbox(crypt_str("Hide shots"), &g_cfg.antiaim.hide_shots);
+					if (g_cfg.antiaim.hide_shots)
+					{
+						ImGui::SameLine();
+						draw_keybind(crypt_str(""), &g_cfg.antiaim.hide_shots_key, crypt_str("##HOTKEY_HIDESHOTS"));
+					}
                 }
-
-				ImGui::Checkbox(crypt_str("Hide shots"), &g_cfg.antiaim.hide_shots);
-				if (g_cfg.antiaim.hide_shots)
-				{
-					ImGui::SameLine();
-					draw_keybind(crypt_str(""), &g_cfg.antiaim.hide_shots_key, crypt_str("##HOTKEY_HIDESHOTS"));
-				}
-                
 			}
 			ImGui::EndChild();
 			tab_end();
@@ -1118,8 +1116,8 @@ void c_menu::draw_visuals(int child)
 						ImGui::Checkbox(crypt_str("Custom scope lines"), &g_cfg.esp.custom_scopes_line);
 				    	ImGui::SameLine();
 				    	ImGui::ColorEdit(crypt_str("##scopeslinecolor"), &g_cfg.esp.scopes_line_color, ALPHA);
-					    ImGui::SliderInt(crypt_str("Scope lines width"), &g_cfg.esp.scopes_line_width, 0, 500);
-				    	ImGui::SliderInt(crypt_str("Scope lines offset"), &g_cfg.esp.scopes_line_offset, 0, 500);
+						ImGui::SliderInt(crypt_str("Scope lines width"), &g_cfg.esp.scopes_line_width, 0, 500);
+						ImGui::SliderInt(crypt_str("Scope lines offset"), &g_cfg.esp.scopes_line_offset, -500, 500);
 						ImGui::Checkbox(crypt_str("Dynamic scope lines"), &g_cfg.esp.dynamic_scopes_line);
 						ImGui::Checkbox(crypt_str("Fix zoom sensivity"), &g_cfg.esp.fix_zoom_sensivity);
 
@@ -2095,6 +2093,7 @@ void c_menu::draw_misc(int child)
 			{
 				ImGui::Checkbox(crypt_str("Hide from OBS"), &g_cfg.misc.obs);
 				ImGui::Checkbox(crypt_str("Clantag Spammer"), &g_cfg.misc.clantag_spammer);
+				draw_keybind(crypt_str("Fake hs"), &g_cfg.misc.hs, crypt_str("#HEADSHOT__HOTKEY"));
 				ImGui::Checkbox(crypt_str("Enable buybot"), &g_cfg.misc.buybot_enable);
 				if (g_cfg.misc.buybot_enable)
 				{
@@ -2721,10 +2720,13 @@ void c_menu::draw(bool is_open)
 		{
 			ImGui::Spacing();
 			ImGui::Spacing();
-			ImGui::Spacing();
-			ImGui::Spacing();
-			ImGui::Spacing();
-			ImGui::Spacing();
+			ImGui::PushFont(neverpuk);
+			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(1, 8)); //Устанавливаем расстояние между буквой и текстом вместо 1 расстояние между эелемнтами, вторую цифру из style->ItemSpacing
+			ImGui::TextColored(ImColor(0, 170, 255), " Necrop");
+			ImGui::SameLine();
+			ImGui::Text("hilex");
+			ImGui::PopStyleVar();
+			ImGui::PopFont();
 			ImGui::Spacing();
 			ImGui::Spacing();
 			ImGui::PushFont(neverpuk);
@@ -2744,7 +2746,7 @@ void c_menu::draw(bool is_open)
 			ImGui::Spacing();
 			if (ImGui::MainTab(crypt_str("misc"), super_ico, crypt_str("D"), active_tab == 4, ImVec2(115 * dpi_scale, 0)) && last_tab == active_tab && !preview_reverse) active_tab = 4;
 			ImGui::Spacing();
-			if (ImGui::MainTab(crypt_str("configs"), super_ico, crypt_str("H"), active_tab == 5, ImVec2(115 * dpi_scale, 0)) && last_tab == active_tab && !preview_reverse) active_tab = 5;
+			if (ImGui::MainTab(crypt_str("configuraion"), super_ico, crypt_str("H"), active_tab == 5, ImVec2(115 * dpi_scale, 0)) && last_tab == active_tab && !preview_reverse) active_tab = 5;
 			ImGui::Spacing();
 			if (ImGui::MainTab(crypt_str("scripts"), super_ico, crypt_str("I"), active_tab == 7, ImVec2(115 * dpi_scale, 0)) && last_tab == active_tab && !preview_reverse) active_tab = 7;
 

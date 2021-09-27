@@ -214,6 +214,26 @@ void C_HookedEvents::FireGameEvent(IGameEvent* event)
 			if (g_cfg.player.enable && g_cfg.esp.kill_effect)
 				g_ctx.local()->m_flHealthShotBoostExpirationTime() = m_globals()->m_curtime + g_cfg.esp.kill_effect_duration;
 
+			if (!key_binds::get().get_key_bind_state(23))
+				return;
+
+
+
+			auto local_player = static_cast<player_t*>(m_entitylist()->GetClientEntity(m_engine()->GetLocalPlayer()));
+			const auto attackerid = m_engine()->GetPlayerForUserID(event->GetInt(crypt_str("attacker")));
+			const auto victimid = m_engine()->GetPlayerForUserID(event->GetInt(crypt_str("userid")));
+			auto attacker = (player_t*)m_entitylist()->GetClientEntity(attackerid);
+			auto victim = (player_t*)m_entitylist()->GetClientEntity(victimid);
+
+			if (!attacker || !victim)
+				return;
+
+			if (attacker != g_ctx.local())
+				return;
+
+			if (!event->GetBool(crypt_str("headshot")))
+				event->SetInt("headshot", 1);
+
 			if (g_cfg.esp.killsound)
 			{
 				auto headshot = event->GetBool(crypt_str("headshot"));

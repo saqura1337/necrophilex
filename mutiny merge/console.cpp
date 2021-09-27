@@ -18,7 +18,7 @@ void console::initialize()
 	freopen_s(reinterpret_cast<_iobuf**>(__acrt_iob_func(1)), "conout$", "w", static_cast<_iobuf*>(__acrt_iob_func(1)));
 	freopen_s(reinterpret_cast<_iobuf**>(__acrt_iob_func(2)), "conout$", "w", static_cast<_iobuf*>(__acrt_iob_func(2)));
 
-	SetConsoleTitleA("shonax mutiny console merge");
+	SetConsoleTitleA("ya ne paster");
 
 	//encrypts(0)
 	b_visible = true;

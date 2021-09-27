@@ -169,7 +169,7 @@ void __stdcall hooks::hooked_fsn(ClientFrameStage_t stage)
 		if (g_cfg.esp.client_bullet_impacts)
 		{
 			static auto last_count = 0;
-			auto& client_impact_list = *(CUtlVector <client_hit_verify_t>*)((uintptr_t)g_ctx.local() + 0xBC00);
+			auto& client_impact_list = *(CUtlVector <client_hit_verify_t>*)((uintptr_t)g_ctx.local() + 0x11C50);
 
 			for (auto i = client_impact_list.Count(); i > last_count; --i)
 				m_debugoverlay()->BoxOverlay(client_impact_list[i - 1].position, Vector(-2.0f, -2.0f, -2.0f), Vector(2.0f, 2.0f, 2.0f), QAngle(0.0f, 0.0f, 0.0f), g_cfg.esp.client_bullet_impacts_color.r(), g_cfg.esp.client_bullet_impacts_color.g(), g_cfg.esp.client_bullet_impacts_color.b(), g_cfg.esp.client_bullet_impacts_color.a(), 4.0f);

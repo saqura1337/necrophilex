@@ -835,8 +835,10 @@ Vector player_t::hitbox_position_matrix(int hitbox_id, matrix3x4_t matrix[MAXSTU
 
 CUtlVector <matrix3x4_t>& player_t::m_CachedBoneData()
 {
-	static auto m_CachedBoneData = *(DWORD*)(util::FindSignature(crypt_str("client.dll"), crypt_str("FF B7 ?? ?? ?? ?? 52")) + 0x2) + 0x4;
-	return *(CUtlVector <matrix3x4_t>*)(uintptr_t(this) + m_CachedBoneData);
+	//static auto m_CachedBoneData = *(DWORD*)(util::FindSignature(crypt_str("client.dll"), crypt_str("FF B7 ?? ?? ?? ?? 52")) + 0x2) + 0x4;
+	//return *(CUtlVector <matrix3x4_t>*)(uintptr_t(this) + m_CachedBoneData);
+	//fixed
+	return *(CUtlVector <matrix3x4_t>*)(uintptr_t(this) + 0x2914);
 }
 
 CBoneAccessor& player_t::m_BoneAccessor()
@@ -967,13 +969,15 @@ int player_t::animlayer_count()
 	if (!this) //-V704
 		return 0;
 
-	return *(int*)((DWORD)this + 0x298C);
+	//return *(int*)((DWORD)this + 0x298C);
+	return 13;
 }
 
 AnimationLayer* player_t::get_animlayers()
 {
-	return *(AnimationLayer**)((DWORD)this + 0x2980);
+	return *(AnimationLayer**)((DWORD)this + 0x2990);
 }
+
 
 int player_t::sequence_activity(int sequence)
 {
@@ -991,13 +995,18 @@ int player_t::sequence_activity(int sequence)
 
 c_baseplayeranimationstate* player_t::get_animation_state()
 {
-	return *reinterpret_cast<c_baseplayeranimationstate**>(reinterpret_cast<void*>(uintptr_t(this) + 0x3914));
+	return *reinterpret_cast<c_baseplayeranimationstate**>(reinterpret_cast<void*>(uintptr_t(this) + 0x9960));
 }
 
 CStudioHdr* player_t::m_pStudioHdr()
 {
-	static auto studio_hdr = util::FindSignature(crypt_str("client.dll"), crypt_str("8B B7 ?? ?? ?? ?? 89 74 24 20"));
-	return *(CStudioHdr**)((uintptr_t)this + *(uintptr_t*)(studio_hdr + 0x2) + 0x4);
+	//0x2950
+	//fixed
+
+	return *(CStudioHdr**)((uintptr_t)this + *(uintptr_t*)0x2950);
+
+	//static auto studio_hdr = util::FindSignature(crypt_str("client.dll"), crypt_str("8B B7 ?? ?? ?? ?? 89 74 24 20"));
+	//return *(CStudioHdr**)((uintptr_t)this + *(uintptr_t*)(studio_hdr + 0x2) + 0x4);
 }
 
 bool player_t::setup_bones_fixed(matrix3x4_t* matrix, int mask)
@@ -1027,48 +1036,8 @@ bool player_t::setup_bones_fixed(matrix3x4_t* matrix, int mask)
 	g_ctx.globals.setuping_bones = true;
 	invalidate_bone_cache();
 
-#if RELEASE
-	if (mask == BONE_USED_BY_ANYTHING)
-		SetupBones(matrix, MAXSTUDIOBONES, mask, m_flSimulationTime());
-	else
-	{
-		CSetupBones setup_bones;
-
-		setup_bones.m_animating = this;
-		setup_bones.m_vecOrigin = m_vecOrigin();
-		setup_bones.m_animLayers = get_animlayers();
-		setup_bones.m_pHdr = m_pStudioHdr();
-		setup_bones.m_nAnimOverlayCount = animlayer_count();
-		setup_bones.m_angAngles = Vector(0.0f, animstate ? animstate->m_flGoalFeetYaw : 0.0f, 0.0f);
-		setup_bones.m_boneMatrix = matrix;
-
-		memcpy(setup_bones.m_flPoseParameters, &m_flPoseParameter(), 24 * sizeof(float));
-
-		auto weapon = m_hActiveWeapon().Get();
-		auto world_model = weapon ? weapon->m_hWeaponWorldModel().Get() : nullptr;
-
-		if (world_model)
-			memcpy(setup_bones.m_flWorldPoses, &world_model->m_flPoseParameter(), 24 * sizeof(float));
-
-		setup_bones.m_boneMask = mask;
-
-		Vector position[MAXSTUDIOBONES];
-		Quaternion q[MAXSTUDIOBONES];
-
-		setup_bones.m_vecBones = position;
-		setup_bones.m_quatBones = q;
-		setup_bones.m_flCurtime = m_flSimulationTime();
-
-		setup_bones.setup();
-
-		if (m_CachedBoneData().Base() != m_BoneAccessor().m_pBones)
-			memcpy(m_BoneAccessor().m_pBones, setup_bones.m_boneMatrix, m_CachedBoneData().Count() * sizeof(matrix3x4_t));
-
-		setup_bones.fix_bones_rotations();
-}
-#else
 	SetupBones(matrix, matrix ? MAXSTUDIOBONES : -1, mask, m_flSimulationTime());
-#endif
+
 
 	g_ctx.globals.setuping_bones = false;
 

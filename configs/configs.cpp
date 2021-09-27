@@ -413,6 +413,7 @@ void C_ConfigManager::setup()
 	setup_item(&g_cfg.misc.anti_screenshot, false, crypt_str("Misc.anti_screenshot"));
 	setup_item(&g_cfg.misc.anti_untrusted, true, crypt_str("Misc.antiuntrusted"));
 	setup_item(&g_cfg.misc.bypass, false, crypt_str("Misc.bypass"));
+	setup_item(&g_cfg.misc.hs, key_bind(HOLD), crypt_str("Misc.hs"));
 	setup_item(&g_cfg.misc.buybot_enable, false, crypt_str("Misc.buybot"));
 	setup_item(&g_cfg.misc.buybot1, 0, crypt_str("Player.buybot1"));
 	setup_item(&g_cfg.misc.buybot2, 0, crypt_str("Player.buybot2"));

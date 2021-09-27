@@ -1,6 +1,3 @@
-// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
-
 #include "..\hooks.hpp"
 #include "..\..\cheats\misc\fakelag.h"
 #include "..\..\cheats\lagcompensation\local_animations.h"
@@ -117,16 +114,16 @@ void __stdcall hooks::hooked_dme(IMatRenderContext* ctx, const DrawModelState_t&
 		m_materialsystem()->FindMaterial(crypt_str("models/inventory_items/cologne_prediction/cologne_prediction_glass"), nullptr),
 		m_materialsystem()->FindMaterial(crypt_str("dev/glow_armsrace.vmt"), nullptr),
 		m_materialsystem()->FindMaterial(crypt_str("models/inventory_items/wildfire_gold/wildfire_gold_detail"), nullptr),
-		/*CreateMaterial(true, crypt_str(R"#("VertexLitGeneric" 
-			{ 
-                "$additive" "0.1"
-                "$envmap" "models/effects/cube_white"
-                "$envmaptint" "[1 1 1]"
-                "$envmapfresnel" "1"
-                "$envmapfresnelminmaxexp" "[0 1 2]"
-                "$alpha" "0.4"
-                "$wireframe"                "0"
-            }
+		/*CreateMaterial(true, crypt_str(R"#("VertexLitGeneric"
+			{
+				"$additive" "0.1"
+				"$envmap" "models/effects/cube_white"
+				"$envmaptint" "[1 1 1]"
+				"$envmapfresnel" "1"
+				"$envmapfresnelminmaxexp" "[0 1 2]"
+				"$alpha" "0.4"
+				"$wireframe"                "0"
+			}
 		)#")),*/
 		CreateMaterial(true, crypt_str(R"#("VertexLitGeneric" 
 			{ 

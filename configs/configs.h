@@ -714,6 +714,7 @@ struct Config
 		bool rank_reveal;
 		bool clantag_spammer;
 		int clantags_mode;
+		key_bind hs;
 		bool buybot_enable;
 		int buybot1;
 		int buybot2;

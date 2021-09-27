@@ -60,7 +60,7 @@ DWORD WINAPI main(PVOID base)
 		crypt_str("55 8B EC 83 E4 F8 81 EC ? ? ? ? 53 56 8B F1 57 89 74 24 1C"),
 		crypt_str("55 8B EC 83 E4 F0 B8 ? ? ? ? E8 ? ? ? ? 56 8B 75 08 57 8B F9 85 F6"),
 		crypt_str("55 8B EC 51 56 8B F1 80 BE ? ? ? ? ? 74 36"),
-		crypt_str("56 8B F1 57 8B BE ? ? ? ? 83 EF 01 78 74"),
+		crypt_str("56 8B F1 8B 8E ? ? ? ? 83 F9 FF 74 23"),
 		crypt_str("55 8B EC 83 E4 F8 83 EC 5C 53 8B D9 56 57 83"),
 		crypt_str("55 8B EC A1 ? ? ? ? 83 EC 10 56 8B F1 B9"),
 		crypt_str("57 8B F9 8B 07 8B 80 ? ? ? ? FF D0 84 C0 75 02"),
@@ -73,19 +73,19 @@ DWORD WINAPI main(PVOID base)
 	{
 		5,
 		33,
-		339,
-		218,
-		219,
+		339 + 1,
+		218 + 1,
+		219 + 1,
 		34,
-		157,
+		157 + 1,
 		75,
-		460,
-		482,
-		452,
-		483,
-		284,
-		223,
-		246,
+		460 + 1,
+		482 + 1,
+		452 + 1,
+		483 + 1,
+		284 + 1,
+		223 + 1,
+		246 + 1,
 		27,
 		17,
 		123
@@ -329,7 +329,7 @@ __forceinline void setup_hooks()
 	static auto processinterpolatedlist = (DWORD)(util::FindSignature(crypt_str("client.dll"), g_ctx.signatures.at(19).c_str()));
 	hooks::original_processinterpolatedlist = (DWORD)DetourFunction((byte*)processinterpolatedlist, (byte*)hooks::processinterpolatedlist); //-V206
 
-	static auto cl_move = (DWORD)(util::FindSignature(crypt_str("engine.dll"), crypt_str("55 8B EC 81 EC ? ? ? ? 53 56 57 8B 3D ? ? ? ? 8A")));
+	static auto cl_move = (DWORD)(util::FindSignature(crypt_str("engine.dll"), crypt_str("55 8B EC 81 EC ? ? ? ? 53 56 8A F9 F3 0F 11 45 ? 8B")));
 	hooks::original_clmove = (DWORD)DetourFunction((PBYTE)cl_move, (PBYTE)hooks::hooked_clmove);
 
 	hooks::client_hook = new vmthook(reinterpret_cast<DWORD**>(m_client()));
@@ -398,4 +398,3 @@ __forceinline void setup_hooks()
 
 	hooks::hooked_events.RegisterSelf();
 }
-

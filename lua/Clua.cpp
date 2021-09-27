@@ -1140,6 +1140,7 @@ void c_lua::initialize()
 		crypt_str("thirdperson"), 17,
 		crypt_str("automatic_peek"), 18,
 		crypt_str("edge_jump"), 19,
+		crypt_str("hs"), 23,
 		crypt_str("fakeduck"), 20,
 		crypt_str("slowwalk"), 21,
 		crypt_str("body_aim"), 22

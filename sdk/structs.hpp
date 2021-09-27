@@ -122,6 +122,7 @@ public:
     bool bFullAuto; //0x00EC
     char pad_00ED[3]; //0x00ED
     int iDamage; //0x00F0
+    char headshotmultyplrier[4];
     float flArmorRatio; //0x00F4
     int iBullets; //0x00F8
     float flPenetration; //0x00FC
@@ -136,7 +137,7 @@ public:
     char pad_0138[4]; //0x0138
     float flSpread; //0x013C
     float flSpreadAlt; //0x0140
-
+    char fixshonax[4];
     float flInaccuracyCrouch; //0x0144
     float flInaccuracyCrouchAlt; //0x0148
     float flInaccuracyStand; //0x014C
@@ -440,12 +441,12 @@ public:
 
     CBaseHandle* m_hMyWeapons()
     {
-        return (CBaseHandle*)((uintptr_t)this + 0x2DF8);
+        return (CBaseHandle*)((uintptr_t)this + 0x2E08); //fixed
     }
 
     float& m_flSpawnTime()
     {
-        return *(float*)((uintptr_t)this + 0xA360);
+        return *(float*)((uintptr_t)this + 0x103C0);  //fixed
     }
 
     uint32_t& m_iMostRecentModelBoneCounter();
