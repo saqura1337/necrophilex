@@ -1,83 +1,114 @@
-void autowall::scale_damage(player_t* e, CGameTrace& enterTrace, weapon_info_t* weaponData, float& currentDamage)
-{
-	if (!e->is_player())
-		return;
+﻿/*
+------------------------------ЗАКЛИНАНИЕ НАХУЙ ЧТОБЫ ЧИТ ЕБАШИЛ------------------------------
+У, у, у, у, у (Ва-а-ху-у)
+Да, я богатый уёбок (Е)
+У меня денег так много (Cash)
+Моё ебало — коробка (У, у, у, у, у, ва-а-ху-у)
+Хули, бля, ты такой робкий? (Е)
+Ты же базарил так громко (Пиздел)
+Та-Так и быть делай фотку (Ху-у, ха-ха)
+(Пока я добрый, сучка)
+Да, я пиздец-охуевший (Да)
+Сука твоя без одежды, эй (У, у, у, у, у)
+Я подарю ей нежность (Секс, р-р-р, иди сюда)
+Прыг-Прыг ей прямо меж ног, эй (Ху-у)
+Доедаю промежность (Ам)
+Это, сука, любовь (Муа)
 
-	auto is_armored = [&]()->bool
-	{
-		auto has_helmet = e->m_bHasHelmet();
-		auto armor_value = e->m_ArmorValue();
+Хули ты мне ща вякнешь? (А?)
+Сука, ты сын домашний (Пососи)
+Rollie на мне — швейцарский (Блеск)
+Цепь на мне — это важно (Chain)
+Иди покушай ты кашу (Ам)
+Я пока ногти накрашу (Вау)
+Суки твоей буду краше (Я)
+Она зовёт меня крашем
+Эй, я легенда, как Цой (Эй)
+Но такой молодой (Цой)
+Подавился мацой, эй (А-а-ву-у)
+Думай, типа тупой, эй
+Думай это, мне похуй (Похуй, эй)
+Чё, DaBaby? Да похуй (Да похуй, эй)
+Хуй огромный, как пенис (Член)
+На мне прыгает жопа
 
-		if (armor_value > 0)
-		{
-			switch (enterTrace.hitgroup)
-			{
-			case HITGROUP_HEAD:
-				return has_helmet;
-			case HITGROUP_GENERIC:
-			case HITGROUP_CHEST:
-			case HITGROUP_STOMACH:
-			case HITGROUP_LEFTARM:
-			case HITGROUP_RIGHTARM:
-				return true;
-			default:
-				return false;
-			}
-		}
+Bounce, bounce, bounce, bounce
+Bounce, bounce, bounce, bounce
+Bounce, bounce, bounce, bounce
+А, я всё
 
-		return false;
-	};
+А, шутки в сторону, сука, а
+Я тебе чё, Иуда? (What?)
+С государством работал? (Не)
+Не, но теперь буду (Да)
+Чё ещё, типа байтер? (What?)
+Сделал деньги на даунах? (Да)
+Да, это так, но
+На даунах, что хейтят меня в комментариях (Ва-а)
 
-	static auto mp_damage_scale_ct_head = m_cvar()->FindVar(crypt_str("mp_damage_scale_ct_head")); //-V807
-	static auto mp_damage_scale_t_head = m_cvar()->FindVar(crypt_str("mp_damage_scale_t_head"));
+У, у, у, у, у (Ху-у)
+Да, я богатый уёбок (Е)
+У меня денег так много (Cash, а)
+Моё ебало — коробка (Вау, у, у, у, у, вода)
+Хули, бля, ты такой робкий? (Gang)
+Ты же базарил так громко (Пиздел)
+Та-Так и быть делай фотку (Ху-у-ху-у)
+(Трясутся ручки, ха-ха)
+Да, я пиздец-охуевший (Да)
+Сука твоя без одежды, эй (У, у, у, у, у)
+Я подарю ей нежность (Секс, р-р-р, иди сюда) (У, у, у, у, у)
+Прыг-Прыг ей прямо меж ног (Да)
+Доедаю промежность (Ам-ам)
+Это, сука, любовь
+*/
+/*
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
 
-	static auto mp_damage_scale_ct_body = m_cvar()->FindVar(crypt_str("mp_damage_scale_ct_body"));
-	static auto mp_damage_scale_t_body = m_cvar()->FindVar(crypt_str("mp_damage_scale_t_body"));
+--⢐⠈⠄⢂⢐⠐⡐⠠⠈⠄⢂⠐⠄⡁⢂⢐⢬⣿⢿⣽⢿⣽⣻⡽⡿⣵⣻⣺⣺⣳⡳⣕⢧⡣⡐⠄⢂⠄⡂⠄⠂⡀⢂⠐⡀⢂⢁⠐⡀⠢⠐⡀⢂⠨⢐⢔⢑⢅⠣⡃⡇⡣⡪⣪⢪⢎
+--⢀⠊⠨⠠⠐⢐⠠⠁⠡⠈⠄⠠⠡⢐⢀⢢⡿⣾⢿⡯⣿⢽⢾⢽⢽⣺⣺⣺⣺⡺⣮⡳⣫⢞⡎⡆⠄⠂⠠⠐⠄⠂⡀⢂⠐⠠⠐⢀⠂⡁⠂⠂⡂⢐⠐⢌⠢⡡⡃⢇⢕⢕⢕⢕⢕⢕
+--⢐⠨⠈⠄⠅⢂⠐⡈⠄⠅⠌⣘⢌⢐⠌⡓⣽⣻⣽⢯⡯⣟⡽⣽⡳⣗⣗⣗⢷⢽⣺⡺⣪⢧⢳⡹⡹⡠⡅⠠⠁⡂⢐⠄⢂⠡⠈⡀⢂⠠⠁⡁⠄⠂⡈⡢⠱⡐⡅⡣⡱⡸⡸⡰⡱⡣
+--⢐⠈⠌⠄⠅⢂⠐⠠⠈⠄⢂⢺⣢⡣⡕⣼⣺⣞⣗⡯⣯⣗⣯⢷⣻⣽⢾⢾⣝⡗⣗⣝⢮⡳⡹⣪⢺⢸⢜⢜⢔⢔⠠⡈⠄⡐⢈⠠⢀⠄⡂⠄⠌⠠⠐⢌⢊⠢⡱⢨⠢⡃⡇⡇⡗⣝
+--⠠⠨⠠⠁⡂⢂⠨⠠⠁⠅⠂⠌⣺⡜⣮⣿⢾⣳⡯⣟⣾⣺⣽⢯⣟⡾⣝⣗⢵⢝⣞⢼⢕⡝⡎⣎⢗⡝⣎⢗⢵⢱⠱⡱⡱⡸⡸⡸⡐⡅⢌⠌⠌⠄⢡⠱⢨⠨⢜⢰⢑⢕⢕⢜⢜⢆
+--⠐⡈⠄⠡⠐⡀⢂⠡⢨⡼⢶⣧⣔⣿⣽⣾⢿⡯⣯⢷⣗⣟⣞⢟⢎⡯⣺⣪⢗⡧⡳⡕⡇⡇⡏⡎⡇⡏⡎⡇⡇⡣⡣⣳⢱⢕⡕⡜⢔⠜⡐⠅⠅⡈⡢⡑⡅⢕⠱⡐⢕⢌⢎⠎⡎⡎
+--⠠⠐⠈⢄⠡⠐⡐⠨⢸⠇⢕⢹⡻⣽⣯⣿⣟⣿⢽⣻⡺⣺⢺⢝⠳⡑⢑⠙⠩⠓⠇⡇⠧⡱⠡⢣⠱⡱⡱⠱⡸⠸⠪⡣⡫⡪⡪⡪⡑⢕⠨⡨⠂⠌⡢⡊⡢⢡⢑⢅⢣⢑⢅⢇⢏⢎
+--⠠⠁⠅⢂⠐⡁⠄⠡⠘⣇⢇⢷⡵⡝⢷⣿⣽⡾⣿⢽⣮⠾⠑⠣⣑⠈⠄⣐⡐⠠⠡⠠⡑⣜⡸⡰⡁⡃⠄⢁⠠⠈⠄⡀⠐⠐⢐⠠⠑⡁⠢⡊⠄⡑⠐⣌⠌⡆⠕⢌⠢⡑⡅⡣⡱⡱
+--⠠⠁⠅⢂⢂⢐⠈⠌⡐⢹⡬⣗⢇⢦⡿⣷⣟⣟⣯⣗⡥⣼⣼⡮⡻⡤⡦⡺⣑⠱⡐⠴⡸⣸⢾⢕⢌⠄⡆⡡⡢⢿⡠⠁⣌⢗⠠⢈⠢⠨⡂⠪⢐⠠⢹⢎⠪⡐⢕⠡⡃⡪⡐⡕⢜⢜
+--⠈⠌⠌⡐⡀⠢⠨⠐⠨⢀⢻⣺⣕⡽⡿⣯⡿⣽⢷⡷⣟⣗⡯⡫⣓⠇⡗⢌⠢⡑⣌⢮⣪⢾⢯⡣⡃⢂⢗⡅⡕⢕⠭⢭⠨⡢⠡⡂⢌⢊⠌⠌⠄⠂⢝⠨⡊⢌⠆⡣⠪⡐⡱⡨⡊⡆
+--⠨⠠⢁⠂⠄⡑⢈⠨⠐⢐⠘⣯⣿⢷⡟⣯⡿⣯⢿⣻⡯⣟⡾⣽⡪⡎⡎⡆⣕⣺⢮⣗⡯⣟⡷⡕⢕⢐⠐⡕⡕⣑⢑⠅⡕⢌⢪⢰⡑⡌⠌⢂⠡⡈⠆⠕⡌⡢⢱⠨⡪⢨⠢⢪⢘⠬
+--⢈⠂⡂⠅⢂⠂⡂⠄⠅⡂⠌⢹⣟⡧⣯⢿⣽⣯⡯⣗⢯⡳⡻⣚⣎⣗⣵⣫⢞⡕⣏⣞⢮⣯⢿⡪⡂⡂⠅⡊⡪⣒⢬⢒⢌⢆⠧⡱⡨⠂⠅⠂⡂⢌⠪⡨⠢⡊⢆⠕⡌⡢⢣⢑⢅⢇
+--⢐⠐⡀⠅⡂⠂⠄⠅⡂⠔⢈⠠⠙⠝⠝⡸⣷⣯⢿⣝⡮⣺⡪⣗⣗⢗⡗⡇⡇⡑⣜⡾⣽⢾⡻⡜⢔⠠⡁⢜⢜⡜⣎⢧⢳⢑⢱⢈⠢⠡⠡⢈⠐⢅⠕⡘⡌⡌⢆⠕⡌⡊⡆⡣⡊⡆
+--⢐⠐⡐⠐⡈⠌⡨⠐⠠⠈⠄⡐⠠⢁⠐⠄⣿⣾⢿⣳⢯⣳⢯⢗⡗⣝⢜⢎⢢⢸⣷⢿⣟⡿⣝⣎⠢⡁⠢⠘⢜⢜⢜⢜⢌⠪⡐⢌⠌⢌⢐⠠⡑⢅⢪⠨⡢⠪⡊⡪⡘⡌⡪⡨⡪⢪
+--⠠⡁⡂⡁⡂⠅⡂⠡⢁⢁⢂⢐⢁⢂⠡⡁⢺⣿⣻⣽⣳⢯⢯⡳⣝⢮⡣⣣⣳⡝⠍⠊⠚⡪⠪⠸⠐⠠⠁⠅⡪⡣⢣⢑⢅⢣⢘⠔⡡⢂⠢⡱⠨⢢⢑⢕⢘⠜⡌⢎⢪⢸⢨⢢⢣⢣
+--⠨⡐⡐⢐⢈⠢⡈⡂⡂⢂⢐⠠⠂⠔⡐⠨⢨⣿⣽⢾⣺⢽⢕⣟⢮⢷⢽⣳⡳⡡⠐⡈⠄⠂⠨⠄⠅⢀⠁⢅⠣⡣⡑⢥⢑⢅⠕⠌⠔⡈⡢⡊⡪⠢⡱⡐⢅⢣⢊⢎⢪⢢⢣⢱⢸⢰
+--⠨⢂⠂⠅⡂⡑⡐⠔⡠⢁⠂⠌⠌⠌⢄⠕⣽⢿⡾⣯⢯⢯⢯⢾⢽⣻⢿⡽⣣⠡⠂⡀⠊⠄⠑⡈⡀⢂⠐⢐⢱⢑⠜⢌⢎⠢⡑⡡⢱⣌⣆⠪⡐⢕⢌⢊⡪⢸⠰⡱⡑⡕⡅⡇⡇⢧
+--⠨⡂⢅⢑⠨⡐⡡⢑⠄⡑⠌⠌⡊⢌⠢⣸⣿⢽⢯⣯⢷⣫⢿⡽⡿⡽⠹⢘⢑⠣⡃⡂⡅⡅⢅⢂⠔⡐⡈⡐⢌⠢⡃⡣⡱⠡⠢⡑⢈⢖⡔⡡⢝⣜⢶⣵⣜⣌⢎⢆⢣⢣⢣⢣⢫⢪
+--⠨⡐⢔⢐⢁⠢⢂⠅⡌⠔⡁⠅⡂⠢⣱⣿⣟⣇⢿⣾⢽⣺⢽⣺⡹⡸⣸⢼⣝⣯⢿⠝⠝⡩⡃⡇⡇⡒⢌⢢⢡⢑⢕⢱⢈⢊⠪⠐⠠⠨⠘⢔⢱⣹⡲⡮⣾⣜⢿⣾⣮⣎⣎⢎⣎⢧
+--⠨⡂⡢⢂⠢⢡⠑⢌⢐⢁⢂⢅⣦⡿⣿⡯⣿⣽⡜⡯⣟⢞⢽⡪⣎⢏⢎⢇⠇⢇⠣⠡⡑⢌⠪⡸⡐⢕⠱⡑⢌⠢⠣⡑⢔⠡⢁⠊⡨⠠⠡⢡⠑⢮⡺⣝⣞⢾⢝⣞⣿⣻⣿⣿⣾⣾
+--⠨⡂⡢⢑⠌⡢⢑⢅⠢⢂⣖⣿⣾⢿⣯⢿⢵⣳⢯⢮⡱⢯⡪⡫⡪⣳⢱⣣⡳⡵⣝⡮⣟⢾⢝⣎⠮⡪⢪⢘⢌⠪⡨⡈⠢⠈⠄⡂⡂⡑⡈⡂⢅⠣⡹⠵⣕⢗⣝⢖⢎⣷⣿⣾⡿⣾
+--⢘⠔⡨⠢⡑⡐⢅⢢⣱⣿⠿⣽⣫⣿⡽⣝⢕⣯⡺⣪⢪⢮⡹⡺⣌⢗⢝⢮⢞⢽⡪⢯⠺⡩⢪⠪⡊⠜⡌⢆⠅⠕⡠⠨⠄⠅⡊⢄⢂⠢⡐⠨⡂⠕⡱⠱⡱⡳⡕⡏⡗⡜⡻⣝⢞⣿
+--⢑⢌⠢⡑⢔⢌⣶⢿⣻⡝⣸⡏⢮⣾⣻⡪⢪⣺⢮⣳⢱⢕⢝⢮⡪⡫⢮⡣⡫⢊⠪⠨⡊⢌⠢⡑⠜⢌⠢⢑⢈⢂⢐⠠⠡⡑⡐⢅⠪⡐⢌⢌⠢⡑⢜⢸⢘⢜⢵⢹⡪⡮⡪⡪⡯⣿
 
-	auto head_scale = e->m_iTeamNum() == 3 ? mp_damage_scale_ct_head->GetFloat() : mp_damage_scale_t_head->GetFloat();
-	auto body_scale = e->m_iTeamNum() == 3 ? mp_damage_scale_ct_body->GetFloat() : mp_damage_scale_t_body->GetFloat();
+--卐卐卐FICK DICH RAXER DU HURENSOHN HEIL HITLER!LANG LEBE DAS DEUTSCHE REICH SIEG HEIL卐卐卐
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐DEUTSCHE REICH CODENZ卐卐卐----卐卐卐DEUTSCHE REICH CODENZ卐卐卐--
+--卐卐卐FICK DICH RAXER DU HURENSOHN HEIL HITLER!LANG LEBE DAS DEUTSCHE REICH SIEG HEIL卐卐卐
+*/
 
-	auto armor_heavy = e->m_bHasHeavyArmor();
-	auto armor_value = (float)e->m_ArmorValue();
-
-	if (armor_heavy)
-		head_scale *= 0.5f;
-
-	switch (enterTrace.hitgroup)
-	{
-	case HITGROUP_HEAD:
-		currentDamage *= armor_heavy ? 2.f : 4.f;
-		break;
-	case HITGROUP_STOMACH:
-		currentDamage *= 1.25f;
-		break;
-	case HITGROUP_LEFTLEG:
-	case HITGROUP_RIGHTLEG:
-		currentDamage *= 0.75f;
-		break;
-	default:
-		break;
-	}
-
-	if (is_armored())
-	{
-		auto armor_scale = 1.0f;
-		auto armor_ratio = weaponData->flArmorRatio * 0.5f;
-		auto armor_bonus_ratio = 0.5f;
-
-		if (armor_heavy)
-		{
-			armor_ratio *= 0.2f;
-			armor_bonus_ratio = 0.33f;
-			armor_scale = 0.25f;
-		}
-
-		auto new_damage = currentDamage * armor_ratio;
-		auto estiminated_damage = (currentDamage - currentDamage * armor_ratio) * armor_scale * armor_bonus_ratio;
-
-		if (estiminated_damage > armor_value)
-			new_damage = currentDamage - armor_value / armor_bonus_ratio;
-
-		currentDamage = new_damage;
-	}
-}
